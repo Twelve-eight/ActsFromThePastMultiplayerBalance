@@ -50,11 +50,16 @@ public static class AwakenedOnePatch
 	[HarmonyPatch("RebirthMove")]
 	static void RebirthMovePatch(AwakenedOne __instance, ref Task __result, IReadOnlyList<Creature> targets)
 	{
-		__result = RebirthMoveAsync(__instance);
+		Task original = __result;
+		__result = RebirthMoveAsync(__instance, original);
 	}
 
-    static async Task RebirthMoveAsync(AwakenedOne instance)
+    static async Task RebirthMoveAsync(AwakenedOne instance, Task original)
 	{
+		// Await the original RebirthMove to completion so its revival animation / HP / model
+		// transform finish before the caller's awaited task resolves. Exceptions from the
+		// original task propagate normally through this wrapper; they are not swallowed.
+		await original;
 		await PowerCmd.Remove<MultiplayerCuriosityPower>(instance.Creature);
 	}
 }

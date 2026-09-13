@@ -51,8 +51,20 @@ public sealed class MultiplayerShiftingPower: MultiplayerBalancePower
 			return;
 		}
         Flash();
+		int before = DamageReceived;
+		int threshold = base.Amount;
+		if (threshold <= 0)
+		{
+			// No defined threshold: accumulate the damage for the countdown but never reduce.
+			DamageReceived += result.TotalDamage;
+			return;
+		}
+		int crossings = (before + result.TotalDamage) / threshold - before / threshold;
 		DamageReceived += result.TotalDamage;
-		await PowerCmd.Apply<ShiftingStrengthDownPower>(new ThrowingPlayerChoiceContext(), base.Owner, result.TotalDamage / base.Amount, base.Owner, null);
+		if (crossings > 0)
+		{
+			await PowerCmd.Apply<ShiftingStrengthDownPower>(new ThrowingPlayerChoiceContext(), base.Owner, crossings, base.Owner, null);
+		}
     }
 
     public override Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)

@@ -1,0 +1,21 @@
+{
+  "id": "ActsFromThePastMultiplayerBalance",
+  "name": "AFTP Multiplayer Balance (多人心愿单平衡)",
+  "author": "Twelve-eight",
+  "description": "Balance adjustments for Acts from the Past in multiplayer: Transient/Awakened One threshold fixes and Shifting Strength power relabeling for the player-owned variant. Requires Acts from the Past; inactive without it.",
+  "version": "0.1.0",
+  "min_game_version": "0.111.0",
+  "has_pck": false,
+  "has_dll": true,
+  "dependencies": [
+    {
+      "id": "BaseLib",
+      "min_version": "3.4.5"
+    },
+    {
+      "id": "ActsFromThePast",
+      "min_version": "1.0.5"
+    }
+  ],
+  "affects_gameplay": true
+}

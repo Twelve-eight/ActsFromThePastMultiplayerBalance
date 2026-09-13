@@ -30,6 +30,6 @@ public static class TransientPatch
 	{
 		await BaseAfterAddedToRoom();
 		await PowerCmd.Apply<FadingPower>(new ThrowingPlayerChoiceContext(), instance.Creature, AscensionHelper.GetValueIfAscension(AscensionLevel.ToughEnemies, 6, 5), instance.Creature, null);
-        await PowerCmd.Apply<MultiplayerShiftingPower>(new ThrowingPlayerChoiceContext(), instance.Creature, Math.Min(instance.Creature.CombatState?.Players.Count ?? 1, 1), instance.Creature, null);
+        await PowerCmd.Apply<MultiplayerShiftingPower>(new ThrowingPlayerChoiceContext(), instance.Creature, Math.Max(instance.Creature.CombatState?.Players.Count ?? 1, 1), instance.Creature, null);
 	}
 }
