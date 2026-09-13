@@ -1,3 +1,15 @@
+## 第二轮复审 (2026-09-13)
+
+当前 AFTP Balance 隔离构建 exit 0, 0 warning/0 error. 已存在的 BAL-1 人数下限, BAL-2 累计阈值跨越, BAL-3 保留原始 RebirthMove Task 的源码修复继续保留; 本轮没有真实多人战斗证明.
+
+### P2 BAL-4 仍开放
+
+当前 `Code/Patches/ShiftingStrengthDownPowerPatch.cs:17,26,34` 仍把目标 `ShiftingStrengthDownPower` 的 getter prefix 参数声明为 `Transient __instance`. 参数未使用, 但 Harmony 实例参数类型仍与目标方法不符. 这不是构建错误可覆盖的运行期契约; 应删掉未使用参数或改成正确 power 类型, 再用真实 ClassProcessor/调用验证三个 getter.
+
+### 仍需真实验证
+
+本轮未运行多人 Transient/Awakened One 战斗,未验证阈值跨越,复活动画完成义务,异常传播和非目标怪物对照. 当前建议不把构建绿灯升级成 balance acceptance.
+
 # Astra advice - ActsFromThePastMultiplayerBalance
 
 日期: 2026-09-12. 主会话单线. 本轮构建此本地分支成功, 0 警告/0 错误; 另反编译当前工坊 3785039319 的同名 DLL, 确認下述前三项结构也存在于实际发布包. 未进行真实怪物战斗.
