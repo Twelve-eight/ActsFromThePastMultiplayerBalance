@@ -1,14 +1,14 @@
-## 第二轮复审 (2026-09-13)
+## 第四轮复审 (2026-09-14): 纠正旧 advice 的开放状态
 
-当前 AFTP Balance 隔离构建 exit 0, 0 warning/0 error. 已存在的 BAL-1 人数下限, BAL-2 累计阈值跨越, BAL-3 保留原始 RebirthMove Task 的源码修复继续保留; 本轮没有真实多人战斗证明.
+当前 HEAD `2953700`, 本轮无新增产品源码差异. 隔离 Release 构建 exit 0, 0 warnings/0 errors. 第三轮 advice 仍把 BAL-4 写成错误参数未删, 与当时 DEVLOG/当前源码相矛盾, 现纠正.
 
-### P2 BAL-4 仍开放
+- `SOURCE`: BAL-1 已使用 `Math.Max(count,1)`; BAL-2 已使用累计跨阈值差 `(before+damage)/threshold-before/threshold`. 不再列为当前未修改缺陷. 未跑多人伤害结算, 只关闭旧公式诊断.
+- `REPRO_ISOLATED_PASS`: BAL-3 当前 RebirthMove wrapper 在原 Task 未完成时保持等待; 原 Task fault 可从 wrapper 观察到同一异常. 没有跑成功复活/动画/清 power 路径.
+- `REPRO_ISOLATED_PASS`: BAL-4 三个 getter 已删除未使用错误参数, 当前 DLL 的真实 Harmony ClassProcessor 安装 3 个方法成功. 未运行 tooltip/真实 creature getter 消费.
 
-当前 `Code/Patches/ShiftingStrengthDownPowerPatch.cs:17,26,34` 仍把目标 `ShiftingStrengthDownPower` 的 getter prefix 参数声明为 `Transient __instance`. 参数未使用, 但 Harmony 实例参数类型仍与目标方法不符. 这不是构建错误可覆盖的运行期契约; 应删掉未使用参数或改成正确 power 类型, 再用真实 ClassProcessor/调用验证三个 getter.
+仍开放: 完全替代 AfterAddedToRoom 的 prefix 用 `BaseAfterAddedToRoom()=>CompletedTask` 代替真实基类, 反射失败的硬编码数值回落, Transient 的多段累计和回合重置真实战斗. 不在本轮改平衡或把 AFTP 主包问题归给 Balance.
 
-### 仍需真实验证
-
-本轮未运行多人 Transient/Awakened One 战斗,未验证阈值跨越,复活动画完成义务,异常传播和非目标怪物对照. 当前建议不把构建绿灯升级成 balance acceptance.
+证据: [binary-boundaries.json](../astra-advice-evidence/2026-09-14/round4/binary-boundaries.json). AFTP 主包补丁规划见 [AFTP 评估](../aftp-upstream/astra-advice.md). 以下为历史问题原貌, 以上述当前分级为准.
 
 # Astra advice - ActsFromThePastMultiplayerBalance
 

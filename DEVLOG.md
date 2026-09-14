@@ -16,3 +16,17 @@
 - **未验证**: Transient/AwakenedOne 多人实战、阈值跨越、复活动画义务、非目标怪物对照
   ——全部依赖真实双端/实机游玩 (用户阻塞队列)。
 - 遗留: mod 无 pck (has_pck=false), localization 文件夹未打包 —— 如需中文化需后续开 pck。
+
+## 2026-09-14 astra 第三轮审查交接记录
+
+第三轮隔离构建 exit 0, 0 warnings. 当前源代码已删除 `ShiftingStrengthDownPower` getter 中错误的 `Transient __instance` 参数; binary recheck 没有执行当前 getter ClassProcessor 或真实战斗. 仍需验证 Transient/AwakenedOne, 阈值, RebirthMove, 非目标怪物和多人.
+
+证据: `G:\\omp works\\astra-advice-evidence\\2026-09-14\\third-review-summary.json`. 当前 advice 修改未提交, 未操作游戏或部署.
+
+## 2026-09-14 astra 第四轮复核
+
+当前 2953700 源码相对第三轮无新增变化. Release 0 warnings/0 errors. 三个 getter 的真实 Harmony ClassProcessor 安装成功; Rebirth wrapper 在原 Task 未完成时等待, 原异常保持可观察. Math.Max 和累计 crossings 公式已在当前源码, 旧 advice 中 BAL-4 仍未改的段落已纠正.
+
+实际多人伤害阈值/回合重置/成功复活与动画仍未运行; 不把 Task fixture 当整场战斗. AfterAddedToRoom no-op 基类与反射硬编码回落仍需维护. AFTP 主包的状态/特效建议在 ../aftp-upstream/astra-advice.md, 不混入 Balance 平衡职责.
+
+证据: ../astra-advice-evidence/2026-09-14/round4/binary-boundaries.json. 未改产品源码, 未部署/操作游戏/push.
