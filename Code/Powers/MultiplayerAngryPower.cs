@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using ActsFromThePastMultiplayerBalance.Powers;
-using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -26,6 +25,8 @@ public sealed class MultiplayerAngryPower: MultiplayerBalancePower
             return;
         }
         Flash();
-        await PowerCmd.Apply<ExtraDamagePower>(new ThrowingPlayerChoiceContext(), dealer, base.Amount, base.Owner, null);
+        // D08: stamp ExtraDamageSource.Angry on the instance the engine actually
+        // attaches, so the shared power can be gated per group.
+        await ExtraDamagePower.ApplyFromSourceAsync(dealer, base.Owner, base.Amount, ExtraDamageSource.Angry);
     }
 }

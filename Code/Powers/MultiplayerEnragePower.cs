@@ -22,7 +22,9 @@ public sealed class MultiplayerEnragePower: MultiplayerBalancePower
         if (cardPlay.Card.Type == CardType.Skill)
         {
             await Cmd.Wait(0.5f);
-            await PowerCmd.Apply<ExtraDamagePower>(new ThrowingPlayerChoiceContext(), cardPlay.Card.Owner.Creature, base.Amount, base.Owner, null);
+            // D08: stamp ExtraDamageSource.Enrage on the instance the engine
+            // actually attaches, so the shared power can be gated per group.
+            await ExtraDamagePower.ApplyFromSourceAsync(cardPlay.Card.Owner.Creature, base.Owner, base.Amount, ExtraDamageSource.Enrage);
         }
     }
 }

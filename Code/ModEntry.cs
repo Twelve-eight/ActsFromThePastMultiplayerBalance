@@ -136,11 +136,19 @@ public static class ModEntry
     /// explicit on purpose: a new patch class that is not listed here is NOT covered
     /// by any group switch, so it is refused (fail closed) and logged instead of
     /// silently changing behavior without a switch.
+    ///
+    /// D08 (2026-10-02): AwakenedOneRebirthCleanupPatch is the one deliberate
+    /// exception to the group mapping. It is installed whenever the master switch is
+    /// on, including when the AwakenedOne behavior group is off, because its only job
+    /// is to remove a leftover MultiplayerCuriosityPower from an old save after the
+    /// original RebirthMove completes. When the master switch is off, Init skips
+    /// InstallPatches entirely, so this class is never installed in that state.
     /// </summary>
     private static bool IsPatchGroupEnabled(Type patchClass)
     {
         if (patchClass == typeof(Patches.TransientPatch)) return MultiplayerBalanceGate.TransientEnabled;
         if (patchClass == typeof(Patches.AwakenedOnePatch)) return MultiplayerBalanceGate.AwakenedOneEnabled;
+        if (patchClass == typeof(Patches.AwakenedOneRebirthCleanupPatch)) return MultiplayerBalanceGate.MasterEnabled;
         if (patchClass == typeof(Patches.GremlinNobPatch)) return MultiplayerBalanceGate.GremlinNobEnabled;
         if (patchClass == typeof(Patches.GremlinMadPatch)) return MultiplayerBalanceGate.GremlinMadEnabled;
         if (patchClass == typeof(Patches.ShiftingStrengthDownPowerPatch)) return MultiplayerBalanceGate.ShiftingLabelEnabled;
@@ -159,6 +167,7 @@ public static class ModEntry
     {
         if (patchClass == typeof(Patches.TransientPatch)) MultiplayerBalanceGate.TransientGroupEnabled = false;
         else if (patchClass == typeof(Patches.AwakenedOnePatch)) MultiplayerBalanceGate.AwakenedOneGroupEnabled = false;
+        else if (patchClass == typeof(Patches.AwakenedOneRebirthCleanupPatch)) MultiplayerBalanceGate.AwakenedOneGroupEnabled = false;
         else if (patchClass == typeof(Patches.GremlinNobPatch)) MultiplayerBalanceGate.GremlinNobGroupEnabled = false;
         else if (patchClass == typeof(Patches.GremlinMadPatch)) MultiplayerBalanceGate.GremlinMadGroupEnabled = false;
         else if (patchClass == typeof(Patches.ShiftingStrengthDownPowerPatch)) MultiplayerBalanceGate.ShiftingLabelGroupEnabled = false;
@@ -201,10 +210,14 @@ public static class ModEntry
 /// - Values are snapshotted once by <see cref="ModEntry.Init"/> before Harmony
 ///   registration; a change takes effect on the NEXT game start. This keeps the
 ///   installed patch set and any run/pool determinism stable for the current session.
-/// - Master off: no patch is registered. Group off: that group's patch class is not
-///   registered at all, and the runtime gate inside the remaining patch/power code
-///   also returns to the authoritative AFTP path, which keeps old saves that still
-///   contain Multiplayer*Power instances inert instead of broken.
+/// - Master off: no patch is registered at all. Group off: that group's behavior
+///   patch class is not registered, and the runtime gate inside the remaining
+///   patch/power code also returns to the authoritative AFTP path, which keeps old
+///   saves that still contain Multiplayer*Power instances inert instead of broken.
+///   The AwakenedOne Rebirth cleanup class is the deliberate exception: it is
+///   installed whenever the master switch is on (even with the AwakenedOne group
+///   off) so a leftover MultiplayerCuriosityPower from an old save is still removed
+///   after the original RebirthMove completes.
 /// - The balance Power classes stay registered in ModelDb (the engine instantiates
 ///   every AbstractModel subtype in loaded mod assemblies after the mod initializers,
 ///   and PowerModel has no auto-add opt-out). Their ModelIds are therefore unchanged

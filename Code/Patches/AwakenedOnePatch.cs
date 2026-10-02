@@ -5,8 +5,6 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using ActsFromThePast.Acts.TheBeyond.Enemies;
 using ActsFromThePastMultiplayerBalance.Code.Powers;
 using ActsFromThePast.Powers;
-using System.Collections.Generic;
-using MegaCrit.Sts2.Core.Entities.Creatures;
 namespace ActsFromThePastMultiplayerBalance.Patches;
 
 [HarmonyPatch(typeof(AwakenedOne))]
@@ -28,6 +26,11 @@ public static class AwakenedOnePatch
 		// subscription all run in the original task. The multiplayer replacement
 		// only swaps the Curiosity power after the original completes, reusing the
 		// amount the original computed instead of re-deriving it from constants.
+		//
+		// D08 (2026-10-02): RebirthMove cleanup moved to
+		// AwakenedOneRebirthCleanupPatch so it also runs when this behavior group is
+		// off (this class is then skipped by ModEntry, leaving the original AFTP
+		// lifecycle untouched).
 		await original;
 		if (!MultiplayerBalanceGate.AwakenedOneEnabled)
 		{
@@ -47,24 +50,5 @@ public static class AwakenedOnePatch
 			return;
 		}
 		await PowerCmd.Remove(originalPower);
-	}
-
-	[HarmonyPostfix]
-	[HarmonyPatch("RebirthMove")]
-	static void RebirthMovePatch(AwakenedOne __instance, ref Task __result, IReadOnlyList<Creature> targets)
-	{
-		Task original = __result;
-		__result = RebirthMoveAsync(__instance, original);
-	}
-
-	static async Task RebirthMoveAsync(AwakenedOne instance, Task original)
-	{
-		// Await the original RebirthMove to completion so its revival animation / HP / model
-		// transform finish before the caller's awaited task resolves. Exceptions from the
-		// original task propagate normally through this wrapper; they are not swallowed.
-		// The replacement power is cleaned up unconditionally: it must not survive the
-		// rebirth even if the group was toggled off after it had been applied.
-		await original;
-		await PowerCmd.Remove<MultiplayerCuriosityPower>(instance.Creature);
 	}
 }
