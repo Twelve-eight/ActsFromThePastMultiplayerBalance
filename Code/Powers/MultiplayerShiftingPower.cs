@@ -46,6 +46,12 @@ public sealed class MultiplayerShiftingPower: MultiplayerBalancePower
 
     public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target, DamageResult result, ValueProp props, Creature? dealer, CardModel? cardSource)
     {
+        // Group gate: a leftover instance must not keep reducing strength after the
+        // Transient balance group (or the master switch) is turned off.
+        if (!MultiplayerBalanceGate.TransientEnabled)
+		{
+			return;
+		}
         if (target != Owner || result.TotalDamage <= 0)
 		{
 			return;

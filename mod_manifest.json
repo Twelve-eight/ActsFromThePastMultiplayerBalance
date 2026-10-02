@@ -2,7 +2,7 @@
   "id": "ActsFromThePastMultiplayerBalance",
   "name": "AFTP Multiplayer Balance (多人心愿单平衡)",
   "author": "Twelve-eight",
-  "description": "Balance adjustments for Acts from the Past in multiplayer: Transient/Awakened One threshold fixes and Shifting Strength power relabeling for the player-owned variant. Requires Acts from the Past; inactive without it.",
+  "description": "Multiplayer balance adjustments for Acts from the Past (hard dependency; the mod does not load without it). After the original AFTP lifecycle runs, it replaces Transient's Shifting power with the multiplayer-threshold variant, Awakened One's Curiosity and Gremlin Nob/Gremlin Mad's Enrage/Angry powers with the multiplayer variants, and relabels Shifting Strength. Ships a default-on master switch plus one switch per behavior group (BaseLib settings page, mod_configs/ActsFromThePastMultiplayerBalance.cfg): master off registers no Harmony patches at all, a group off restores that group's original AFTP behavior, and switch changes apply on the next game start.",
   "version": "0.1.0",
   "min_game_version": "0.111.0",
   "has_pck": false,

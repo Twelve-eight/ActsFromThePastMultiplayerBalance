@@ -13,6 +13,12 @@ public sealed class MultiplayerCuriosityPower: MultiplayerBalancePower
 
     public override async Task AfterCardPlayed(PlayerChoiceContext context, CardPlay cardPlay)
     {
+        // Group gate: see MultiplayerBalanceGate. Applied instances stop acting when
+        // the AwakenedOne group (or the master switch) is off.
+        if (!MultiplayerBalanceGate.AwakenedOneEnabled)
+		{
+			return;
+		}
         if (cardPlay.Card.Type == CardType.Power)
         {
             await Cmd.Wait(0.5f);

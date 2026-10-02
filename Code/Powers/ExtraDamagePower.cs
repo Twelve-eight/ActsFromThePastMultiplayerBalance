@@ -25,6 +25,13 @@ public sealed class ExtraDamagePower: MultiplayerBalancePower
 
 	public override decimal ModifyDamageAdditive(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource, CardPlay? cardPlay)
 	{
+		// Master gate only: this power is shared by the Enrage/Curiosity/Angry
+		// replacement groups, so it must stop amplifying damage whenever the mod's
+		// master switch is off, even for instances that were already applied.
+		if (!MultiplayerBalanceGate.MasterEnabled)
+		{
+			return 0m;
+		}
 		if (target != base.Owner)
 		{
 			return 0m;

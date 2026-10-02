@@ -13,6 +13,12 @@ public sealed class MultiplayerEnragePower: MultiplayerBalancePower
 
     public override async Task AfterCardPlayed(PlayerChoiceContext context, CardPlay cardPlay)
     {
+        // Group gate: see MultiplayerBalanceGate. Applied instances stop acting when
+        // the GremlinNob group (or the master switch) is off.
+        if (!MultiplayerBalanceGate.GremlinNobEnabled)
+		{
+			return;
+		}
         if (cardPlay.Card.Type == CardType.Skill)
         {
             await Cmd.Wait(0.5f);

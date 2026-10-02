@@ -15,6 +15,12 @@ public sealed class MultiplayerAngryPower: MultiplayerBalancePower
 
     public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target, DamageResult result, ValueProp props, Creature? dealer, CardModel? cardSource)
     {
+        // Group gate: see MultiplayerBalanceGate. Applied instances stop acting when
+        // the GremlinMad group (or the master switch) is off.
+        if (!MultiplayerBalanceGate.GremlinMadEnabled)
+		{
+			return;
+		}
         if (target != Owner || dealer == null || result.UnblockedDamage <= 0 || !props.HasFlag(ValueProp.Move) || props.HasFlag(ValueProp.Unpowered))
         {
             return;

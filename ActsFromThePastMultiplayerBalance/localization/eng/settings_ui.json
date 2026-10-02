@@ -1,0 +1,14 @@
+{
+  "ACTSFROMTHEPASTMULTIPLAYERBALANCE-ENABLE_MULTIPLAYER_BALANCE.title": "Enable multiplayer balance",
+  "ACTSFROMTHEPASTMULTIPLAYERBALANCE-ENABLE_MULTIPLAYER_BALANCE.hover.desc": "Master switch. Off: no multiplayer balance patch is registered and all replaced powers fall back to the original AFTP behavior. Takes effect on the next game start.",
+  "ACTSFROMTHEPASTMULTIPLAYERBALANCE-ENABLE_TRANSIENT_BALANCE.title": "Transient: multiplayer Shifting",
+  "ACTSFROMTHEPASTMULTIPLAYERBALANCE-ENABLE_TRANSIENT_BALANCE.hover.desc": "Replaces Transient's Shifting power with the multiplayer-threshold variant. Off: the original AFTP Shifting power is kept. Takes effect on the next game start.",
+  "ACTSFROMTHEPASTMULTIPLAYERBALANCE-ENABLE_AWAKENED_ONE_BALANCE.title": "Awakened One: multiplayer Curiosity",
+  "ACTSFROMTHEPASTMULTIPLAYERBALANCE-ENABLE_AWAKENED_ONE_BALANCE.hover.desc": "Replaces Awakened One's Curiosity power with the multiplayer variant after the original lifecycle runs. Off: the original Curiosity power is kept. Takes effect on the next game start.",
+  "ACTSFROMTHEPASTMULTIPLAYERBALANCE-ENABLE_GREMLIN_NOB_BALANCE.title": "Gremlin Nob: multiplayer Enrage",
+  "ACTSFROMTHEPASTMULTIPLAYERBALANCE-ENABLE_GREMLIN_NOB_BALANCE.hover.desc": "Replaces Gremlin Nob's Enrage power with the multiplayer variant after Bellow. Off: the original Enrage power is kept. Takes effect on the next game start.",
+  "ACTSFROMTHEPASTMULTIPLAYERBALANCE-ENABLE_GREMLIN_MAD_BALANCE.title": "Gremlin Mad: multiplayer Angry",
+  "ACTSFROMTHEPASTMULTIPLAYERBALANCE-ENABLE_GREMLIN_MAD_BALANCE.hover.desc": "Replaces Gremlin Mad's Angry power with the multiplayer variant after the original lifecycle runs. Off: the original Angry power is kept. Takes effect on the next game start.",
+  "ACTSFROMTHEPASTMULTIPLAYERBALANCE-ENABLE_SHIFTING_LABEL.title": "Shifting Strength: multiplayer tooltip",
+  "ACTSFROMTHEPASTMULTIPLAYERBALANCE-ENABLE_SHIFTING_LABEL.hover.desc": "Shows the multiplayer Shifting power tooltip on the temporary Strength loss from Shifting. Off: the original AFTP tooltip is kept. Takes effect on the next game start."
+}
